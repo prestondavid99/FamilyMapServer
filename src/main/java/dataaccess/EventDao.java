@@ -15,6 +15,10 @@ public class EventDao {
 
     }
 
+    public void clearTable(){
+
+    }
+
     public Event getEvent(String eventID) {
         return null;
     }

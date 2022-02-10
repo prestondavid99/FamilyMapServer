@@ -21,6 +21,10 @@ public class PersonDao {
 
     }
 
+    public void clearTable() {
+
+    }
+
     public Person getPerson(String personID) {
         return null;
     }

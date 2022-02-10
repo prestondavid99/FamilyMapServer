@@ -19,6 +19,10 @@ public class UserDao {
         return false;
     }
 
+    public void clearTable() {
+
+    }
+
     public User getUserByID(String userID) {
         return null;
     }
