@@ -15,7 +15,7 @@ public class DatabaseManager {
 
     public void openConnection() throws DatabaseException {
         try {
-            final String CONNECTION_URL = "jdbc:sqlite:spellcheck.sqlite";
+            final String CONNECTION_URL = "jdbc:sqlite:E:/School/Winter Semester 2022/CS 240/FamilyMap/DB/FamilyMapDatabase.db";
 
             // Open a database connection
             conn = DriverManager.getConnection(CONNECTION_URL);

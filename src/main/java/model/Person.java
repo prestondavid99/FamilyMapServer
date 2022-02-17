@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A model for Persons in the database.
+ */
 public class Person {
     private String personID;
     private String associatedUsername;
@@ -10,6 +13,19 @@ public class Person {
     private String motherID;
     private String spouseID;
 
+
+    /**
+     * Creates a Person object with the person's details
+     *
+     * @param personID the ID of the person
+     * @param associatedUsername the person's associated username
+     * @param firstName the person's first name
+     * @param lastName the person's last name
+     * @param gender the person's gender
+     * @param fatherID the person's father's ID
+     * @param motherID the person's mother's ID
+     * @param spouseID the person's spouse's ID
+     */
     public Person(String personID, String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = personID;
         this.associatedUsername = associatedUsername;

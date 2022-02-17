@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A model for Users in the database
+ */
 public class User {
     private String username;
     private String password;
@@ -9,6 +12,17 @@ public class User {
     private String gender;
     private String personID;
 
+    /**
+     * Creates a User object with associated details about that user
+     *
+     * @param username the user's username
+     * @param password the user's password
+     * @param email the user's email
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param gender the user's gender
+     * @param personID the user's person ID
+     */
     public User(String username, String password, String email, String firstName, String lastName, String gender, String personID) {
         this.username = username;
         this.password = password;
