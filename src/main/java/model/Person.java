@@ -37,6 +37,9 @@ public class Person {
         this.spouseID = spouseID;
     }
 
+    public Person(String eventID, String associatedUsername, String personID, float latitude, float longitude, String country, String city, String eventType, int year) {
+    }
+
     public String getPersonID() {
         return personID;
     }

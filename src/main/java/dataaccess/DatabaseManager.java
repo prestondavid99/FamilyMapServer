@@ -13,7 +13,7 @@ public class DatabaseManager {
 
     private Connection conn;
 
-    public void openConnection() throws DatabaseException {
+    public Connection openConnection() throws DatabaseException {
         try {
             final String CONNECTION_URL = "jdbc:sqlite:E:/School/Winter Semester 2022/CS 240/FamilyMap/DB/FamilyMapDatabase.db";
 
@@ -25,6 +25,7 @@ public class DatabaseManager {
         } catch (SQLException e) {
             throw new DatabaseException("openConnection failed", e);
         }
+        return conn;
     }
 
     public void closeConnection(boolean commit) throws DatabaseException {
@@ -89,6 +90,13 @@ public class DatabaseManager {
         }
     }
 
+    public Connection getConnection() throws DatabaseException {
+        if(conn != null) {
+            return openConnection();
+        } else {
+            return conn;
+        }
+    }
 
     public static void main(String[] args) {
         try {
