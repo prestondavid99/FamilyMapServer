@@ -9,11 +9,11 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DatabaseManager {
+public class Database {
 
     private Connection conn;
 
-    public Connection openConnection() throws DatabaseException {
+    public Connection openConnection() throws DataAccessException {
         try {
             final String CONNECTION_URL = "jdbc:sqlite:E:/School/Winter Semester 2022/CS 240/FamilyMap/DB/FamilyMapDatabase.db";
 
@@ -23,12 +23,12 @@ public class DatabaseManager {
             // Start a transaction
             conn.setAutoCommit(false);
         } catch (SQLException e) {
-            throw new DatabaseException("openConnection failed", e);
+            throw new DataAccessException("openConnection failed", e);
         }
         return conn;
     }
 
-    public void closeConnection(boolean commit) throws DatabaseException {
+    public void closeConnection(boolean commit) throws DataAccessException {
         try {
             if (commit) {
                 conn.commit();
@@ -39,21 +39,21 @@ public class DatabaseManager {
             conn.close();
             conn = null;
         } catch (SQLException e) {
-            throw new DatabaseException("closeConnection failed", e);
+            throw new DataAccessException("closeConnection failed", e);
         }
     }
 
-    public void createTables() throws DatabaseException {
+    public void createTables() throws DataAccessException {
         try (Statement stmt = conn.createStatement()) {
 
             stmt.executeUpdate("drop table if exists dictionary");
             stmt.executeUpdate("create table dictionary ( word text not null unique )");
         } catch (SQLException e) {
-            throw new DatabaseException("createTables failed", e);
+            throw new DataAccessException("createTables failed", e);
         }
     }
 
-    public void fillDictionary() throws DatabaseException {
+    public void fillDictionary() throws DataAccessException {
         String[] words = {"fred", "wilma", "betty", "barney"};
 
         String sql = "insert into dictionary (word) values (?)";
@@ -63,15 +63,15 @@ public class DatabaseManager {
                 stmt.setString(1, word);
 
                 if (stmt.executeUpdate() != 1) {
-                    throw new DatabaseException("fillDictionary failed: Could not insert word");
+                    throw new DataAccessException("fillDictionary failed: Could not insert word");
                 }
             }
         } catch (SQLException e) {
-            throw new DatabaseException("fillDictionary failed", e);
+            throw new DataAccessException("fillDictionary failed", e);
         }
     }
 
-    public Set<String> loadDictionary() throws DatabaseException {
+    public Set<String> loadDictionary() throws DataAccessException {
 
         String sql = "select word from dictionary";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -86,12 +86,12 @@ public class DatabaseManager {
 
             return words;
         } catch (SQLException e) {
-            throw new DatabaseException("fillDictionary failed", e);
+            throw new DataAccessException("fillDictionary failed", e);
         }
     }
 
-    public Connection getConnection() throws DatabaseException {
-        if(conn != null) {
+    public Connection getConnection() throws DataAccessException {
+        if(conn == null) {
             return openConnection();
         } else {
             return conn;
@@ -100,7 +100,7 @@ public class DatabaseManager {
 
     public static void main(String[] args) {
         try {
-            DatabaseManager db = new DatabaseManager();
+            Database db = new Database();
 
             db.openConnection();
             db.createTables();
@@ -108,7 +108,7 @@ public class DatabaseManager {
             db.closeConnection(true);
 
             System.out.println("Database created and loaded.");
-        } catch (DatabaseException e) {
+        } catch (DataAccessException e) {
             e.printStackTrace();
         }
     }

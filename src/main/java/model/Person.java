@@ -37,8 +37,25 @@ public class Person {
         this.spouseID = spouseID;
     }
 
-    public Person(String eventID, String associatedUsername, String personID, float latitude, float longitude, String country, String city, String eventType, int year) {
+    public boolean equals(Object o) {
+
+        // Checks if o is null OR if it is not equal to the class
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        Person p = (Person) o;
+        return (p.getFatherID().equals(this.getFatherID()) && p.getMotherID().equals(this.getMotherID()) && p.getSpouseID().equals(this.getSpouseID()) &&
+                p.getFirstName().equals(this.getFirstName()) && p.getLastName().equals(this.getLastName()) && p.getGender().equals(this.getGender()) &&
+                p.getPersonID().equals(this.getPersonID()) && p.getAssociatedUsername().equals(this.getAssociatedUsername())
+        );
+
     }
+
 
     public String getPersonID() {
         return personID;

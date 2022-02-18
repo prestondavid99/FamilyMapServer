@@ -33,6 +33,25 @@ public class User {
         this.personID = personID;
     }
 
+    public boolean equals(Object o) {
+
+        // Checks if o is null OR if it is not equal to the class
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        User u = (User) o;
+        return (u.getUsername().equals(this.getUsername()) && u.getPassword().equals(this.getPassword()) && u.getEmail().equals(this.getEmail()) &&
+                u.getFirstName().equals(this.getFirstName()) && u.getLastName().equals(this.getLastName()) && u.getGender().equals(this.getGender()) &&
+                u.getPersonID().equals(this.getPersonID())
+        );
+
+    }
+
     public String getUsername() {
         return username;
     }

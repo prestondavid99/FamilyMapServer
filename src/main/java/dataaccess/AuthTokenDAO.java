@@ -7,10 +7,10 @@ import java.sql.Connection;
 /**
  * Connects AuthToken model class to the database.
  */
-public class AuthTokenDao {
+public class AuthTokenDAO {
     private Connection connection;
 
-    public AuthTokenDao(Connection connection) {
+    public AuthTokenDAO(Connection connection) {
         this.connection = connection;
     }
 

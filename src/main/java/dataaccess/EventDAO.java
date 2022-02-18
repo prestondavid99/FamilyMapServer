@@ -1,30 +1,28 @@
 package dataaccess;
 
 import model.Event;
-import model.Person;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Set;
 
 /**
- * Connects Person model class to the database
+ * Connects Event model class to the database
  */
-public class PersonDao {
+public class EventDAO {
     private final Connection connection;
 
-    public PersonDao(Connection connection) {
+    public EventDAO(Connection connection) {
         this.connection = connection;
     }
 
     /**
-     * Creates a Person to be inserted into the database.
+     * Creates an Event to insert into the database.
      *
-     * @param person Person object to be inserted
+     * @param event the Event to be inserted
      */
-    public void insert(Person person) throws DatabaseException {
+    public void insert(Event event) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
         String sql = "INSERT INTO Events (EventID, AssociatedUsername, PersonID, Latitude, Longitude, " +
@@ -33,75 +31,75 @@ public class PersonDao {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
-            stmt.setString(1, person.getPersonID());
-            stmt.setString(2, person.getAssociatedUsername());
-            stmt.setString(3, person.getFirstName());
-            stmt.setString(4, person.getLastName());
-            stmt.setString(5, person.getGender());
-            stmt.setString(6, person.getFatherID());
-            stmt.setString(7, person.getMotherID());
-            stmt.setString(8, person.getSpouseID());
+            stmt.setString(1, event.getEventID());
+            stmt.setString(2, event.getAssociatedUsername());
+            stmt.setString(3, event.getPersonID());
+            stmt.setFloat(4, event.getLatitude());
+            stmt.setFloat(5, event.getLongitude());
+            stmt.setString(6, event.getCountry());
+            stmt.setString(7, event.getCity());
+            stmt.setString(8, event.getEventType());
+            stmt.setInt(9, event.getYear());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DatabaseException("Error encountered while inserting an event into the database");
+            throw new DataAccessException("Error encountered while inserting an event into the database");
         }
     }
 
-    public void removePerson(Person person) {
-
-    }
 
     /**
      * Clears the table.
      */
-    public void clear() throws DatabaseException {
-        String sql = "DELETE FROM Person";
+    public void clear() throws DataAccessException {
+        String sql = "DELETE FROM Events";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DatabaseException("Error encountered while clearing the Person table");
+            throw new DataAccessException("Error encountered while clearing the event table");
         }
     }
 
+
     /**
-     * Retrieves a Person from the database using the Person's ID.
+     * Retrieves an Event from the database using the eventID.
      *
-     * @param personID retrieval tool
-     * @return the Person object
+     * @param eventID the Event's ID to locate
+     * @return the Event
      */
-    public Person find(String personID) throws DatabaseException {
-        Person person;
+    public Event find(String eventID) throws DataAccessException {
+        Event event;
         ResultSet rs;
-        String sql = "SELECT * FROM Person WHERE PersonID = ?;";
+        String sql = "SELECT * FROM Events WHERE EventID = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, personID);
+            stmt.setString(1, eventID);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                person = new Person(rs.getString("EventID"), rs.getString("AssociatedUsername"),
+                event = new Event(rs.getString("EventID"), rs.getString("AssociatedUsername"),
                         rs.getString("PersonID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
                         rs.getString("Country"), rs.getString("City"), rs.getString("EventType"),
                         rs.getInt("Year"));
-                return person;
+                return event;
             } else {
                 return null;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DatabaseException("Error encountered while finding a person in the database");
+            throw new DataAccessException("Error encountered while finding an event in the database");
         }
 
     }
 
+
     /**
-     * Retrieves all Persons from the database using the AuthToken
+     * Retrieves all Events from the database using the AuthToken.
      *
      * @param authtoken the AuthToken
-     * @return an array of Person objects
+     * @return an array of Events
      */
-    public Person[] getPeople(String authtoken) {
+    public Event[] getAllEvents(String authtoken) {
         return null;
     }
 }
