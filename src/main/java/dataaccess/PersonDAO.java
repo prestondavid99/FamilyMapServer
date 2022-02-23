@@ -28,20 +28,20 @@ public class PersonDAO {
         //marks we can change them later with help from the statement
         String sql = "INSERT INTO Person (PersonID, AssociatedUsername, firstName, lastName, gender, " +
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stml = connection.prepareStatement(sql)) {
             //Using the statements built-in set(type) functions we can pick the question mark we want
             //to fill in and give it a proper value. The first argument corresponds to the first
             //question mark found in our sql String
-            stmt.setString(1, person.getPersonID());
-            stmt.setString(2, person.getAssociatedUsername());
-            stmt.setString(3, person.getFirstName());
-            stmt.setString(4, person.getLastName());
-            stmt.setString(5, person.getGender());
-            stmt.setString(6, person.getFatherID());
-            stmt.setString(7, person.getMotherID());
-            stmt.setString(8, person.getSpouseID());
+            stml.setString(1, person.getPersonID());
+            stml.setString(2, person.getAssociatedUsername());
+            stml.setString(3, person.getFirstName());
+            stml.setString(4, person.getLastName());
+            stml.setString(5, person.getGender());
+            stml.setString(6, person.getFatherID());
+            stml.setString(7, person.getMotherID());
+            stml.setString(8, person.getSpouseID());
 
-            stmt.executeUpdate();
+            stml.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error encountered while inserting a Person into the database");
@@ -70,8 +70,8 @@ public class PersonDAO {
      */
     public void clear() throws DataAccessException {
         String sql = "DELETE FROM Person;";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
+        try (PreparedStatement stml = connection.prepareStatement(sql)) {
+            stml.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error encountered while clearing the Person table");
@@ -88,9 +88,9 @@ public class PersonDAO {
         Person person;
         ResultSet rs;
         String sql = "SELECT * FROM Person WHERE personID = ?;";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, personID);
-            rs = stmt.executeQuery();
+        try (PreparedStatement stml = connection.prepareStatement(sql)) {
+            stml.setString(1, personID);
+            rs = stml.executeQuery();
             if (rs.next()) {
                 person = new Person(rs.getString("personID"), rs.getString("associatedUsername"),
                         rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"),
