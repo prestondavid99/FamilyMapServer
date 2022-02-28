@@ -4,27 +4,43 @@ package model;
  * A model for Persons in the database.
  */
 public class Person {
+    /**
+     * the ID of the person
+     */
     private String personID;
+    /**
+     * the person's associated username
+     */
     private String associatedUsername;
+    /**
+     * the person's first name
+     */
     private String firstName;
+    /**
+     * the person's last name
+     */
     private String lastName;
+    /**
+     * the person's gender
+     */
     private String gender;
+    /**
+     * the person's father's ID
+     */
     private String fatherID;
+    /**
+     * the person's mother's ID
+     */
     private String motherID;
+    /**
+     * the person's spouse's ID
+     */
     private String spouseID;
+
 
 
     /**
      * Creates a Person object with the person's details
-     *
-     * @param personID the ID of the person
-     * @param associatedUsername the person's associated username
-     * @param firstName the person's first name
-     * @param lastName the person's last name
-     * @param gender the person's gender
-     * @param fatherID the person's father's ID
-     * @param motherID the person's mother's ID
-     * @param spouseID the person's spouse's ID
      */
     public Person(String personID, String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID) {
         this.personID = personID;

@@ -2,30 +2,48 @@ package model;
 
 /**
  * A model for Events in the database
+ *
+ *
  */
 public class Event {
+    /**
+     *  the Event's ID
+     */
     private String eventID;
+    /**
+     * username associated with the event
+     */
     private String associatedUsername;
+    /**
+     * the Person's ID
+     */
     private String personID;
+    /**
+     * latitude of the Event on the earth
+     */
     private float latitude;
+    /**
+     * longitude of the Event on the earth
+     */
     private float longitude;
+    /**
+     * country where the Event takes place
+     */
     private String country;
+    /**
+     * city where the Event takes place
+     */
     private String city;
+    /**
+     * the type of event
+     */
     private String eventType;
+    /**
+     * the year of the event
+     */
     private int year;
-
     /**
      * Creates an Event object using the Event's details
-     *
-     * @param eventID the Event's ID
-     * @param associatedUsername username associated with the event
-     * @param personID the Person's ID
-     * @param latitude latitude of the Event on the earth
-     * @param longitude longitude of the Event on the earth
-     * @param country country where the Event takes place
-     * @param city city where the Event takes place
-     * @param eventType the type of event
-     * @param year the year of the event
      */
     public Event(String eventID, String associatedUsername, String personID, float latitude, float longitude, String country, String city, String eventType, int year) {
         this.eventID = eventID;

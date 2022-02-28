@@ -4,14 +4,17 @@ package model;
  * A model for AuthTokens in the database
  */
 public class AuthToken {
+    /**
+     * the authtoken
+     */
     private String authtoken;
+    /**
+     * the username
+     */
     private String username;
 
     /**
      * Creates an AuthToken object with an authtoken String and username String
-     *
-     * @param authtoken the authtoken
-     * @param username the username
      */
     public AuthToken(String authtoken, String username) {
         this.authtoken = authtoken;

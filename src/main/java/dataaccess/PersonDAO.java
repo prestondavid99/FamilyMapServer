@@ -12,6 +12,9 @@ import java.sql.SQLException;
  * Connects Person model class to the database
  */
 public class PersonDAO {
+    /**
+     * Connection object for connecting to the database
+     */
     private final Connection connection;
 
     public PersonDAO(Connection connection) {
@@ -22,6 +25,7 @@ public class PersonDAO {
      * Creates a Person to be inserted into the database.
      *
      * @param person Person object to be inserted
+     * @throws DataAccessException exception to be thrown if insert fails
      */
     public void insert(Person person) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
@@ -67,6 +71,8 @@ public class PersonDAO {
 
     /**
      * Clears the table.
+     *
+     * @throws DataAccessException Exception to be thrown if clear fails
      */
     public void clear() throws DataAccessException {
         String sql = "DELETE FROM Person;";
@@ -82,6 +88,7 @@ public class PersonDAO {
      * Retrieves a Person from the database using the Person's ID.
      *
      * @param personID retrieval tool
+     * @throws DataAccessException exception to be thrown if find fails
      * @return the Person object
      */
     public Person find(String personID) throws DataAccessException {
@@ -107,13 +114,14 @@ public class PersonDAO {
 
     }
 
-    /**
-     * Retrieves all Persons from the database using the AuthToken
-     *
-     * @param authtoken the AuthToken
-     * @return an array of Person objects
-     */
-//    public Person[] findAll(String authtoken) throws DatabaseException { // TODO : Implemented later
+//    /**
+//     * Retrieves all Persons from the database using the AuthToken
+//     *
+//     * @param authtoken the AuthToken
+//     * @throws DataAccessException exception to be thrown if findAll fails
+//     * @return an array of Person objects
+//     */
+//    public Person[] findAll(String authtoken) throws DataAccessException { // TODO : Implemented later
 //        Person[] personArray;
 //        ResultSet rs;
 //        String sql = "SELECT * FROM Person WHERE authtoken = ?;";

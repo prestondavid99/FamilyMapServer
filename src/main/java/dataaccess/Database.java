@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Communicates with the database
+ */
 public class Database {
 
     private Connection conn;
