@@ -30,7 +30,7 @@ public class PersonDAO {
     public void insert(Person person) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
-        String sql = "INSERT INTO Person (PersonID, AssociatedUsername, firstName, lastName, gender, " +
+        String sql = "INSERT INTO Person (personID, associatedUsername, firstName, lastName, gender, " +
                 "fatherID, motherID, spouseID) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement stml = connection.prepareStatement(sql)) {
             //Using the statements built-in set(type) functions we can pick the question mark we want
