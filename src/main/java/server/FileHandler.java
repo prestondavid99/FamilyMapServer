@@ -1,11 +1,12 @@
 package server;
 
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.io.OutputStream;
+import java.nio.file.Files;
 
 public class FileHandler implements HttpHandler {
     @Override
@@ -27,5 +28,13 @@ public class FileHandler implements HttpHandler {
         if ((urlPath == null) || urlPath.equals("/")) {
             urlPath = "/index.html";
         }
+
+        String filePath = "web" + urlPath;
+        File website = new File(filePath);
+        if (website.exists()) {
+            // Throw 404 error?
+        }
+        OutputStream responseBody = exchange.getResponseBody(); // TODO : No idea what these actually do
+        Files.copy(website.toPath(), responseBody);
     }
 }
