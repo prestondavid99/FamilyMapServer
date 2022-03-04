@@ -3,7 +3,9 @@ package requestresult;
 /**
  * Outcome of the Clear Request
  */
-public class ClearResult {
-    private String message;
-    private boolean success;
+public class ClearResult extends Result{
+
+    public ClearResult(String message, boolean success) {
+        super(message, success);
+    }
 }

@@ -5,8 +5,10 @@ import model.Person;
 /**
  * Outcome of the Person Request
  */
-public class PersonResult {
+public class PersonResult extends Result {
     private Person[] data;
-    private boolean success;
-    private String message;
+
+    public PersonResult(String message, boolean success) {
+        super(message, success);
+    }
 }

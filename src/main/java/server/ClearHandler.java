@@ -1,7 +1,11 @@
 package server;
 import java.io.*;
 import java.net.*;
+import com.google.gson.*;
 import com.sun.net.httpserver.*;
+import dataaccess.DataAccessException;
+import requestresult.ClearResult;
+import service.ClearService;
 
 // /clear
 /**
@@ -9,7 +13,7 @@ import com.sun.net.httpserver.*;
  */
 class ClearHandler implements HttpHandler {
 
-    // Handles HTTP requests containing the "/routes/claim" URL path.
+    // Handles HTTP requests containing the "/clear" URL path.
     // The "exchange" parameter is an HttpExchange object, which is
     // defined by Java.
     // In this context, an "exchange" is an HTTP request/response pair
@@ -23,8 +27,6 @@ class ClearHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        // This handler allows a "Ticket to Ride" player to claim ability
-        // route between two cities (part of the Ticket to Ride game).
         // The HTTP request body contains a JSON object indicating which
         // route the caller wants to claim (a route is defined by two cities).
         // This implementation is clearly unrealistic, because it
@@ -50,8 +52,24 @@ class ClearHandler implements HttpHandler {
 
                         // Start sending the HTTP response to the client, starting with
                         // the status code and any defined headers.
-                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                        // TODO: Call Clear Service and save the result to clearResult object then convert ClearResult Object into a GSON string and send that to the Response Body
+
+                Gson gson = new Gson();
+
+
+                ClearService clearService = new ClearService();
+                ClearResult result = clearService.clear();
+
+                if (result.isSuccess()) {
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                }
+                else {
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                }
+
+                Writer resBody = new OutputStreamWriter(exchange.getResponseBody()); // Converts from result to JSON and puts it into response body
+                gson.toJson(result, resBody);
+
+
                         // We are not sending a response body, so close the response body
                         // output stream, indicating that the response is complete.
                         exchange.getResponseBody().close();
@@ -69,7 +87,7 @@ class ClearHandler implements HttpHandler {
                 exchange.getResponseBody().close();
             }
         }
-        catch (IOException e) {
+        catch (IOException | DataAccessException e) {
             // Some kind of internal error has occurred inside the server (not the
             // client's fault), so we return an "internal server error" status code
             // to the client.

@@ -3,7 +3,7 @@ package requestresult;
 /**
  * Outcome of the PersonId Request
  */
-public class PersonIdResult {
+public class PersonIdResult extends Result {
     private String associatedUsername;
     private String personID;
     private String firstName;
@@ -12,6 +12,8 @@ public class PersonIdResult {
     private String fatherID;
     private String motherID;
     private String spouseID;
-    private boolean success;
-    private String message;
+
+    public PersonIdResult(String message, boolean success) {
+        super(message, success);
+    }
 }

@@ -3,14 +3,14 @@ package requestresult;
 /**
  * Outcome of the Login Request
  */
-public class LoginResult {
+public class LoginResult extends Result {
     /* Success */
     private String authtoken;
     private String username;
     private String personID;
-    private boolean success;
 
-    /* Error */
-    private String message;
+    public LoginResult(String message, boolean success) {
+        super(message, success);
+    }
     // boolean success;
 }

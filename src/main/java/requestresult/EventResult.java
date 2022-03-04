@@ -5,8 +5,10 @@ import model.Event;
 /**
  * Outcome of the Event Request
  */
-public class EventResult {
+public class EventResult extends Result {
     private Event[] data;
-    private String message;
-    private boolean success;
+
+    public EventResult(String message, boolean success) {
+        super(message, success);
+    }
 }

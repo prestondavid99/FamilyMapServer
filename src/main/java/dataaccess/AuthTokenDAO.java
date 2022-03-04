@@ -1,7 +1,6 @@
 package dataaccess;
 
 import model.AuthToken;
-import model.Event;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,5 +61,5 @@ public class AuthTokenDAO {
     /**
      * Clears the table.
      */
-    public void clearTable() {}
+    public void clear() {}
 }
