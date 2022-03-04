@@ -9,18 +9,18 @@ import requestresult.LoginResult;
 /**
  * Logs the user in
  */
-public class LoginService {
-    public LoginResult login(LoginRequest l) throws DataAccessException {
-        Database db = new Database();
-        try {
-            db.openConnection();
-
-            new UserDAO(db.getConnection());
-            return null;
-        }
-        catch (DataAccessException e) {
-
-        }
-        return null;
-    }
-}
+//public class LoginService {
+//    public LoginResult login(LoginRequest l) throws DataAccessException {
+//        Database db = new Database();
+//        try {
+//            db.openConnection();
+//
+//            new UserDAO(db.getConnection()).validate();
+//
+//        }
+//        catch (DataAccessException e) {
+//
+//        }
+//
+//    }
+//}

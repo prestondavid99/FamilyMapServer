@@ -66,8 +66,12 @@ class ClearHandler implements HttpHandler {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                 }
 
-                Writer resBody = new OutputStreamWriter(exchange.getResponseBody()); // Converts from result to JSON and puts it into response body
-                gson.toJson(result, resBody);
+                //Writer resBody = new OutputStreamWriter(exchange.getResponseBody()); // Converts from result to JSON and puts it into response body
+                //gson.toJson(result, resBody);
+                OutputStream resBody = exchange.getResponseBody();
+                OutputStreamWriter streamWriter = new OutputStreamWriter(resBody);
+                streamWriter.write(gson.toJson(result));
+                streamWriter.flush();
 
 
                         // We are not sending a response body, so close the response body

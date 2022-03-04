@@ -18,8 +18,6 @@ public class Database {
 
     public Connection openConnection() throws DataAccessException {
         try {
-            // Desktop String: "jdbc:sqlite:E:/School/Winter Semester 2022/CS 240/FamilyMap/DB/FamilyMapDatabase.db"
-            // Laptop String: "jdbc:sqlite:C:/Users/TheBuh/IdeaProjects/FamilyMapServer/DB/FamilyMapDatabase.db"
             final String CONNECTION_URL = "jdbc:sqlite:DB/FamilyMapDatabase.db";
 
             // Open a database connection
