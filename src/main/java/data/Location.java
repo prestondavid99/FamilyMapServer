@@ -15,10 +15,20 @@ public class Location {
     public Location() throws FileNotFoundException {
     }
 
-    class LocationData {
-        Location[] data;
+
+    public String getCountry() {
+        return country;
     }
 
-    Reader reader = new FileReader("/json/locations.json");
-   // LocationData locationData = (LocationData)gson.fromJson(reader, LocationData.class);
+    public String getCity() {
+        return city;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
 }
