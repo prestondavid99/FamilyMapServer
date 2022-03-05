@@ -53,6 +53,15 @@ public class Person {
         this.spouseID = spouseID;
     }
 
+    public Person(String personID, String associatedUsername, String firstName, String lastName, String gender, String fatherID, String motherID) {
+        this.personID = personID;
+        this.associatedUsername = associatedUsername;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = fatherID;
+        this.motherID = motherID;
+    }
     public boolean equals(Object o) {
 
         // Checks if o is null OR if it is not equal to the class

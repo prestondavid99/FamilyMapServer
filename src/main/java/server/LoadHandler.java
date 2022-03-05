@@ -3,14 +3,13 @@ package server;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import data.Location;
 import dataaccess.DataAccessException;
 import requestresult.LoadRequest;
 import requestresult.LoadResult;
 import service.LoadService;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 
 public class LoadHandler implements HttpHandler {
@@ -21,7 +20,12 @@ public class LoadHandler implements HttpHandler {
         try {
             if(exchange.getRequestMethod().toLowerCase().equals("post")) {
                 Gson gson = new Gson();
-                LoadRequest loadRequest = new LoadRequest();
+                LoadRequest loadRequest;
+
+                InputStream reqBody = exchange.getRequestBody();
+                InputStreamReader reader = new InputStreamReader(reqBody);
+                loadRequest = gson.fromJson(reader, LoadRequest.class);
+
                 LoadService loadService = new LoadService();
                 LoadResult result = loadService.load(loadRequest);
 

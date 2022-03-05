@@ -21,13 +21,17 @@ public class LoadService {
             new PersonDAO(db.getConnection()).clear();
             new AuthTokenDAO(db.getConnection()).clear();
 
-//            new EventDAO(db.getConnection()).insert();
-//            new UserDAO(db.getConnection()).insert();
-//            new PersonDAO(db.getConnection()).insert();
-//            new AuthTokenDAO(db.getConnection()).insert();
+            db.closeConnection(true);
+
+            LoadResult result = new LoadResult("Successfully added " + l.getUsers().length
+                    + " users, " + l.getPersons().length + " persons, and " + l.getEvents().length
+                    + " events to the database.", true);
+            return result;
         }
         catch(DataAccessException e) {
-
+            db.closeConnection(false);
+            e.printStackTrace();
+            LoadResult result = new LoadResult("Error: unable to load data", false);
         }
 
         return null;
