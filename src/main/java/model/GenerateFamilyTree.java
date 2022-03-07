@@ -12,10 +12,13 @@ import java.util.UUID;
 public class GenerateFamilyTree {
 
    private String associatedUsername;
+   private int year;
 
 
     public GenerateFamilyTree(String associatedUsername) {
+        Random random = new Random();
         this.associatedUsername = associatedUsername;
+        year = random.nextInt(2010);
     }
 
     // If generations = 0, just the person
@@ -67,7 +70,7 @@ public class GenerateFamilyTree {
         return person;
     }
 
-    public Event generateEvent(String associatedUsername, String personID) throws FileNotFoundException {
+    public Event generateBirthEvent(String associatedUsername, String personID) throws FileNotFoundException {
         Random random = new Random();
         String eventID = UUID.randomUUID().toString();
         float latitude;
@@ -82,6 +85,8 @@ public class GenerateFamilyTree {
         longitude = locationObj.getData()[index].getLongitude();
         country = locationObj.getData()[index].getCountry();
         city = locationObj.getData()[index].getCity();
-        return null;
+        Event event = new Event(eventID, associatedUsername, personID, latitude, longitude, country, city, "Birth", year);
+        year = year - 15;
+        return event;
     }
 }

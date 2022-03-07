@@ -54,8 +54,27 @@ public class UserDAO {
      * @param password the User's password
      * @return validation success
      */
-    public boolean validate(String username, String password) {
-        return false;
+    public User validate(String username, String password) throws DataAccessException {
+        ResultSet rs;
+        User user;
+        String sql = "SELECT FROM User WHERE username = ? AND password = ?;";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                user = new User(rs.getString("username"), rs.getString("password"),
+                        rs.getString("email"), rs.getString("firstName"), rs.getString("lastName"),
+                        rs.getString("gender"), rs.getString("personID")
+                );
+                return user;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while validating a user in the database");
+        }
     }
 
     /**

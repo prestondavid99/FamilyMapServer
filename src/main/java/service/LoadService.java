@@ -32,8 +32,7 @@ public class LoadService {
             db.closeConnection(false);
             e.printStackTrace();
             LoadResult result = new LoadResult("Error: unable to load data", false);
+            return result;
         }
-
-        return null;
     }
 }
