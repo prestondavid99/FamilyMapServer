@@ -80,18 +80,6 @@ public class Server {
         server.createContext("/user/register", new RegisterHandler());
         server.createContext("/user/login", new LoginHandler());
 
-        // Create and install the HTTP handler for the "/games/list" URL path.
-        // When the HttpServer receives an HTTP request containing the
-        // "/games/list" URL path, it will forward the request to ListGamesHandler
-        // for processing.
-        server.createContext("/games/list", new ListGamesHandler());
-
-        // Create and install the HTTP handler for the "/routes/claim" URL path.
-        // When the HttpServer receives an HTTP request containing the
-        // "/routes/claim" URL path, it will forward the request to ClaimRouteHandler
-        // for processing.
-        server.createContext("/routes/claim", new ClaimRouteHandler());
-
         // Log message indicating that the HttpServer is about the start accepting
         // incoming client connections.
         System.out.println("Starting server");

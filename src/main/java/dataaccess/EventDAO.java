@@ -1,6 +1,7 @@
 package dataaccess;
 
 import model.Event;
+import model.Person;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -99,7 +100,27 @@ public class EventDAO {
      * @param authtoken the AuthToken
      * @return an array of Events
      */
-    public Event[] getAllEvents(String authtoken) {
-        return null;
+    public Event[] getAllEvents(String authtoken) throws DataAccessException {
+        Event[] eventArray = new Event[0];
+        Event event;
+        ResultSet rs;
+        String sql = "SELECT * FROM Event WHERE authtoken = ?;";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, authtoken);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                event = new Event(rs.getString("eventID"), rs.getString("associatedUsername"),
+                        rs.getString("personID"), rs.getFloat("latitude"), rs.getFloat("longitude"),
+                        rs.getString("country"), rs.getString("city"), rs.getString("eventType"),
+                        rs.getInt("year"));
+                event.addX(eventArray.length, eventArray, event);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while finding a person in the database");
+        }
+        return eventArray;
     }
 }

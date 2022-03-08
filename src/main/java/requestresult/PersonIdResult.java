@@ -16,4 +16,9 @@ public class PersonIdResult extends Result {
     public PersonIdResult(String message, boolean success) {
         super(message, success);
     }
+
+    public PersonIdResult(String associatedUsername, String personID, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, String message, boolean success) {
+        super(message, success);
+
+    }
 }

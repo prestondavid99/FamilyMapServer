@@ -1,5 +1,7 @@
 package service;
 
+import dataaccess.DataAccessException;
+import dataaccess.Database;
 import requestresult.FillResult;
 
 /**
@@ -9,7 +11,17 @@ import requestresult.FillResult;
  */
 public class FillService {
     public FillResult fill(String username) {
-        return null;
+        Database db = new Database();
+        try {
+            db.openConnection();
+            GenerateFamilyTree familyTree = new GenerateFamilyTree(db.getConnection(), username);
+
+
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public FillResult fill(String username, int generations) {

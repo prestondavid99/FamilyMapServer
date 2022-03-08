@@ -114,33 +114,36 @@ public class PersonDAO {
 
     }
 
-//    /**
-//     * Retrieves all Persons from the database using the AuthToken
-//     *
-//     * @param authtoken the AuthToken
-//     * @throws DataAccessException exception to be thrown if findAll fails
-//     * @return an array of Person objects
-//     */
-//    public Person[] findAll(String authtoken) throws DataAccessException { // TODO : Implemented later
-//        Person[] personArray;
-//        ResultSet rs;
-//        String sql = "SELECT * FROM Person WHERE authtoken = ?;";
-//        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-//            stmt.setString(1, authtoken);
-//            rs = stmt.executeQuery();
-//            if (rs.next()) {
-//                person = new Person(rs.getString("personID"), rs.getString("associatedUsername"),
-//                        rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"),
-//                        rs.getString("fatherID"), rs.getString("motherID"), rs.getString("spouseID")
-//                );
-//                personArray.
-//                return person;
-//            } else {
-//                return null;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            throw new DatabaseException("Error encountered while finding a person in the database");
-//        }
-//    }
+    /**
+     * Retrieves all Persons from the database using the AuthToken
+     *
+     * @param authtoken the AuthToken
+     * @throws DataAccessException exception to be thrown if findAll fails
+     * @return an array of Person objects
+     */
+    public Person[] findAll(String authtoken) throws DataAccessException {
+        Person[] personArray = new Person[0];
+        Person person;
+        ResultSet rs;
+        String sql = "SELECT * FROM Person WHERE authtoken = ?;";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, authtoken);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                person = new Person(rs.getString("personID"), rs.getString("associatedUsername"),
+                        rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"),
+                        rs.getString("fatherID"), rs.getString("motherID"), rs.getString("spouseID")
+                );
+                person.addX(personArray.length, personArray, person);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while finding a person in the database");
+        }
+        return personArray;
+    }
+
+
 }

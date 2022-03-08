@@ -81,6 +81,20 @@ public class Person {
 
     }
 
+    public Object[] addX(int n, Object arr[], Object x)
+    {
+        int i;
+        Object newarr[] = new Object[n + 1];
+
+
+        for (i = 0; i < n; i++)
+            newarr[i] = arr[i];
+
+        newarr[n] = x;
+
+        return newarr;
+    }
+
 
     public String getPersonID() {
         return personID;
