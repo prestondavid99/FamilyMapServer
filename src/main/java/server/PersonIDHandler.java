@@ -21,13 +21,15 @@ public class PersonIDHandler implements HttpHandler {
             boolean success = false;
             if (exchange.getRequestMethod().toLowerCase().equals("get")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
-                if (reqHeaders.containsKey("AuthToken")) {
-                    String authToken = reqHeaders.getFirst("AuthToken");
-                    if (authToken.equals("afj232hj2332")) { // TODO : What do I put here?
+                if (reqHeaders.containsKey("Authorization")) {
+                    String authToken = reqHeaders.getFirst("Authorization");
                         Gson gson = new Gson();
+                        String URI = exchange.getRequestURI().toString();
+                        String[] array = URI.split("/");
+                        String personID = array[2];
 
                         PersonIdService personIdService = new PersonIdService();
-                        PersonIdResult result = personIdService.getPerson(authToken);
+                        PersonIdResult result = personIdService.getPerson(authToken, personID);
 
                         if (result.isSuccess()) {
                             exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
@@ -42,7 +44,7 @@ public class PersonIDHandler implements HttpHandler {
 
                         exchange.getResponseBody().close();
                         success = true;
-                    }
+
 
                     if (!success) {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
@@ -51,7 +53,7 @@ public class PersonIDHandler implements HttpHandler {
 
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | DataAccessException e) {
             e.printStackTrace();
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
             exchange.getResponseBody().close();

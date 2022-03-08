@@ -11,4 +11,8 @@ public class EventResult extends Result {
     public EventResult(String message, boolean success) {
         super(message, success);
     }
+    public EventResult(Event[] data, String message, boolean success) {
+        super(message, success);
+        this.data = data;
+    }
 }

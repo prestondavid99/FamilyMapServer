@@ -19,6 +19,14 @@ public class PersonIdResult extends Result {
 
     public PersonIdResult(String associatedUsername, String personID, String firstName, String lastName, String gender, String fatherID, String motherID, String spouseID, String message, boolean success) {
         super(message, success);
+        this.associatedUsername = associatedUsername;
+        this.personID = personID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.fatherID = fatherID;
+        this.motherID = motherID;
+        this.spouseID = spouseID;
 
     }
 }

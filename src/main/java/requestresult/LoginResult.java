@@ -3,7 +3,7 @@ package requestresult;
 /**
  * Outcome of the Login Request
  */
-public class LoginResult extends Result {
+public class  LoginResult extends Result {
     private String authtoken;
     private String username;
     private String personID;

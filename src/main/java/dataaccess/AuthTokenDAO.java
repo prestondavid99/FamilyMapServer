@@ -39,12 +39,12 @@ public class AuthTokenDAO {
      * @param authToken the AuthToken sought for in the database
      * @return the AuthToken
      */
-    public AuthToken find(AuthToken authToken) throws DataAccessException {
+    public AuthToken find(String authToken) throws DataAccessException {
         AuthToken authTokenObj;
         ResultSet rs;
         String sql = "SELECT * FROM AuthToken WHERE authToken = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, authToken.getAuthtoken());
+            stmt.setString(1, authToken);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 authTokenObj = new AuthToken(rs.getString("authToken"), rs.getString("username"));
@@ -54,12 +54,20 @@ public class AuthTokenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding an authToken in the database");
+            throw new DataAccessException("Error: finding an authToken in the database failed");
         }
     }
 
     /**
      * Clears the table.
      */
-    public void clear() {}
+    public void clear() throws DataAccessException {
+        String sql = "DELETE FROM AuthToken";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error: clearing the AuthToken table failed");
+        }
+    }
 }

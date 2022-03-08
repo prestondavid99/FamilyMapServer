@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import data.*;
 import dataaccess.DataAccessException;
 import dataaccess.EventDAO;
+import dataaccess.PersonDAO;
 import model.Event;
 import model.Person;
 
@@ -11,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
@@ -19,12 +21,23 @@ public class GenerateFamilyTree {
    private String associatedUsername;
    private int year;
    private Connection connection;
+   private ArrayList<Person> arrayList;
+   private ArrayList<Event> eventList;
 
+
+    public ArrayList<Person> getArrayList() {
+        return arrayList;
+    }
+
+    public void setArrayList(ArrayList<Person> arrayList) {
+        this.arrayList = arrayList;
+    }
 
     public GenerateFamilyTree(Connection connection, String associatedUsername) {
         this.associatedUsername = associatedUsername;
         year = 2020;
         this.connection = connection;
+        arrayList = new ArrayList<>();
     }
 
     // If generations = 0, just the person
@@ -75,6 +88,7 @@ public class GenerateFamilyTree {
         if (canDie) {
             generateDeathEvent(associatedUsername, personID, year + 7);
         }
+        arrayList.add(person);
         return person;
     }
 
@@ -96,6 +110,7 @@ public class GenerateFamilyTree {
         city = locationObj.getData()[index].getCity();
         Event event = new Event(eventID, associatedUsername, personID, latitude, longitude, country, city, "Birth", year);
         eventDAO.insert(event);
+        eventList.add(event);
     }
 
     public void generateMarriageEvent(String associatedUsername, String personID1, String personID2, int year) throws FileNotFoundException, DataAccessException {
@@ -119,6 +134,17 @@ public class GenerateFamilyTree {
         Event event2 = new Event(eventID2, associatedUsername, personID2, latitude, longitude, country, city, "Marriage", year);
         eventDAO.insert(event1);
         eventDAO.insert(event2);
+        eventList.add(event1);
+        eventList.add(event2);
+        // TODO : Are these two separate events?
+    }
+
+    public ArrayList<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(ArrayList<Event> eventList) {
+        this.eventList = eventList;
     }
 
     public void generateDeathEvent(String associatedUsername, String personID, int year) throws FileNotFoundException, DataAccessException {
@@ -139,5 +165,6 @@ public class GenerateFamilyTree {
         city = locationObj.getData()[index].getCity();
         Event event = new Event(eventID, associatedUsername, personID, latitude, longitude, country, city, "Death", year);
         eventDAO.insert(event);
+        eventList.add(event);
     }
 }

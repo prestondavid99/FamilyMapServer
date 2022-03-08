@@ -1,9 +1,11 @@
 package server;
 
 import com.google.gson.Gson;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dataaccess.DataAccessException;
+import requestresult.EventResult;
 import requestresult.PersonResult;
 import service.EventService;
 
@@ -19,24 +21,30 @@ public class EventHandler implements HttpHandler {
 
         try {
             if (exchange.getRequestMethod().toLowerCase().equals("get")) {
-                Gson gson = new Gson();
+                Headers reqHeaders = exchange.getRequestHeaders();
+                if (reqHeaders.containsKey("AuthToken")) {
+                    String authToken = reqHeaders.getFirst("AuthToken");
+                    Gson gson = new Gson();
 
-                EventService eventService = new EventService();
-                PersonResult result = eventService.getEvents(); // TODO : Where do I get this AuthToken?
+                    EventService eventService = new EventService();
+                    EventResult result = eventService.getEvents(authToken);
 
-                if (result.isSuccess()) {
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                } else {
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    if (result.isSuccess()) {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+                    } else {
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                    }
+
+                    OutputStream resBody = exchange.getResponseBody();
+                    OutputStreamWriter streamWriter = new OutputStreamWriter(resBody);
+                    streamWriter.write(gson.toJson(result));
+                    streamWriter.flush();
+
+                    exchange.getResponseBody().close();
+                    success = true;
+
                 }
 
-                OutputStream resBody = exchange.getResponseBody();
-                OutputStreamWriter streamWriter = new OutputStreamWriter(resBody);
-                streamWriter.write(gson.toJson(result));
-                streamWriter.flush();
-
-                exchange.getResponseBody().close();
-                success = true;
             }
 
             if (!success) {
