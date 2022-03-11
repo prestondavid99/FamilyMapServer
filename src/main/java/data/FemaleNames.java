@@ -1,9 +1,9 @@
 package data;
 
 public class FemaleNames {
-    private String[] fNames;
+    private String[] data;
 
-    public String[] getfNames() {
-        return fNames;
+    public String[] getData() {
+        return data;
     }
 }

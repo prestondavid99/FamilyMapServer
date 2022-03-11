@@ -1,9 +1,6 @@
 package service;
 
-import dataaccess.DataAccessException;
-import dataaccess.Database;
-import dataaccess.PersonDAO;
-import dataaccess.UserDAO;
+import dataaccess.*;
 import model.Event;
 import model.Person;
 import model.User;
@@ -22,23 +19,37 @@ public class FillService {
         Database db = new Database();
         ArrayList<Person> personList;
         ArrayList<Event> eventList;
-        User user;
+        User user = new UserDAO(db.getConnection()).find(username);
         try {
-            db.openConnection();
-            user = new UserDAO(db.getConnection()).find(username);
-            GenerateFamilyTree familyTree = new GenerateFamilyTree(db.getConnection(), username); // TODO : What do I do here?
-            familyTree.generatePerson(user.getGender(), generations, 2020, false);
-            personList = familyTree.getArrayList();
-            eventList = familyTree.getEventList();
-            for (Person p : personList) {
-                new PersonDAO(db.getConnection()).insert(p);
+            if (new UserDAO(db.getConnection()).find(username) != null) {
+
+                new PersonDAO(db.getConnection()).clearByUser(username);
+                new EventDAO(db.getConnection()).clearByUser(username);
+                GenerateFamilyTree familyTree = new GenerateFamilyTree(db.getConnection(), username);
+                familyTree.generatePerson(user.getGender(), generations, 2020, false);
+                personList = familyTree.getArrayList();
+                eventList = familyTree.getEventList();
+                for (Person p : personList) {
+                    if (p.getPersonID().equals(user.getPersonID())) {
+                        p.setFirstName(user.getFirstName());
+                        p.setLastName(user.getLastName());
+                        p.setGender(user.getGender());
+                        p.setAssociatedUsername(user.getUsername());
+                    }
+                    new PersonDAO(db.getConnection()).insert(p);
+                }
+
+                db.closeConnection(true);
+
+                FillResult result = new FillResult("Successfully added " + personList.size() +
+                        " persons and " + eventList.size() + " events to the database", true);
+                return result;
+            } else {
+                db.closeConnection(false);
+                FillResult result = new FillResult("Error: User not found", false);
+                return result;
             }
 
-            db.closeConnection(true);
-
-            FillResult result = new FillResult("Successfully added " + personList.size() +
-                    " persons and " + eventList.size() + " events to the database", true);
-            return result;
 
         } catch (DataAccessException | FileNotFoundException e) {
             e.printStackTrace();

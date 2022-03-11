@@ -1,8 +1,10 @@
 package service;
 
+import dataaccess.AuthTokenDAO;
 import dataaccess.DataAccessException;
 import dataaccess.Database;
 import dataaccess.UserDAO;
+import model.AuthToken;
 import model.User;
 import requestresult.LoginRequest;
 import requestresult.LoginResult;
@@ -17,19 +19,26 @@ public class LoginService {
         Database db = new Database();
         try {
             User user;
-            db.openConnection();
-            user = new UserDAO(db.getConnection()).validate(l.getUsername(), l.getPassword());
-            db.closeConnection(true);
+            user = new UserDAO(db.getConnection()).find(l.getUsername());
+            if (user != null && user.getPassword().equals(l.getPassword())) {
+                String authToken = UUID.randomUUID().toString();
+                AuthToken authTokenObj = new AuthToken(authToken, l.getUsername());
+                new AuthTokenDAO(db.getConnection()).insert(authTokenObj);
+                db.closeConnection(true);
 
-            String authToken = UUID.randomUUID().toString();
-            LoginResult result = new LoginResult(authToken, l.getUsername(), user.getPersonID(), true, "");
-            return result;
+                LoginResult result = new LoginResult(authToken, l.getUsername(), user.getPersonID(), true, null);
+                return result;
+            } else {
+                db.closeConnection(false);
+                LoginResult result = new LoginResult("Error: Username or password is incorrect", false);
+                return result;
+            }
         }
         catch (DataAccessException e) {
             e.printStackTrace();
-            LoginResult result = new LoginResult("LoginService Error", false);
+            db.closeConnection(false);
+            LoginResult result = new LoginResult("Error: Login Failed", false);
             return result;
         }
-
     }
 }

@@ -21,6 +21,20 @@ public class AuthToken {
         this.username = username;
     }
 
+    public boolean equals(Object o) {
+
+        // Checks if o is null OR if it is not equal to the class
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        AuthToken a = (AuthToken) o;
+        return (a.getAuthtoken().equals(this.getAuthtoken()) && a.getUsername().equals(this.getUsername()));
+    }
 
     public String getAuthtoken() {
         return authtoken;

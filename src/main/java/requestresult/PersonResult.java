@@ -15,4 +15,12 @@ public class PersonResult extends Result {
         super(message, success);
         this.data = data;
     }
+
+    public Person[] getData() {
+        return data;
+    }
+
+    public void setData(Person[] data) {
+        this.data = data;
+    }
 }

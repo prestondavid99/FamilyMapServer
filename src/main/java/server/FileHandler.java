@@ -17,18 +17,8 @@ public class FileHandler implements HttpHandler {
             String urlPath = exchange.getRequestURI().toString();
             if ((urlPath == null) || urlPath.equals("/")) {
                 urlPath = "/index.html";
-                openFile(exchange, urlPath);
-            } else if (urlPath.equals("/favicon.ico")) {
-                openFile(exchange, urlPath);
-            } else if (urlPath.equals("/css/main.css")) {
-                openFile(exchange, urlPath);
-            } else if (urlPath.equals("/HTML/404.html")) {
-                openFile(exchange, urlPath);
-            } else if (urlPath.equals("/img/background.png")) {
-                openFile(exchange, urlPath);
-            } else if (urlPath.equals("/favicon.jpg")) {
-                openFile(exchange, urlPath);
             }
+            openFile(exchange, urlPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,6 +30,8 @@ public class FileHandler implements HttpHandler {
         OutputStream responseBody = exchange.getResponseBody();
         if (!website.exists()) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND, 0);
+            website = new File("web/HTML/404.html");
+            Files.copy(website.toPath(), responseBody);
             exchange.getResponseBody().close();
         }
         else {

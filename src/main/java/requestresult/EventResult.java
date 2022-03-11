@@ -15,4 +15,12 @@ public class EventResult extends Result {
         super(message, success);
         this.data = data;
     }
+
+    public Event[] getData() {
+        return data;
+    }
+
+    public void setData(Event[] data) {
+        this.data = data;
+    }
 }

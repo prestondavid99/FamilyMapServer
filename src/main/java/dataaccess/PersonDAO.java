@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Connects Person model class to the database
@@ -48,24 +49,24 @@ public class PersonDAO {
             stml.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while inserting a Person into the database");
+            throw new DataAccessException("Error: encountered while inserting a Person into the database");
         }
     }
 
     /**
-     * Removes one person from the table.
+     * Removes Person data from the table based on the username.
      *
-     * @param associatedUsername person to be removed
+     * @param associatedUsername persons to be removed
      * @throws DataAccessException exception to be thrown if clearOne fails
      */
-    public void clearOne(String associatedUsername) throws DataAccessException {
+    public void clearByUser(String associatedUsername) throws DataAccessException {
         String sql = "DELETE FROM Person WHERE associatedUsername = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, associatedUsername);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while clearing the Person table");
+            throw new DataAccessException("Error: encountered while clearing the Person table by username");
         }
     }
 
@@ -80,7 +81,7 @@ public class PersonDAO {
             stml.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while clearing the Person table");
+            throw new DataAccessException("Error: encountered while clearing the Person table");
         }
     }
 
@@ -109,7 +110,7 @@ public class PersonDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding a person in the database");
+            throw new DataAccessException("Error: encountered while finding a person in the database");
         }
 
     }
@@ -117,30 +118,28 @@ public class PersonDAO {
     /**
      * Retrieves all Persons from the database using the AuthToken
      *
-     * @param authtoken the AuthToken
+     * @param associatedUsername the AuthToken
      * @throws DataAccessException exception to be thrown if findAll fails
      * @return an array of Person objects
      */
-    public Person[] findAll(String authtoken) throws DataAccessException {
-        Person[] personArray = new Person[0];
+    public ArrayList<Person> findAll(String associatedUsername) throws DataAccessException {
+        ArrayList<Person> personArray = new ArrayList<>();
         Person person;
         ResultSet rs;
-        String sql = "SELECT * FROM Person WHERE authtoken = ?;";
+        String sql = "SELECT * FROM Person WHERE associatedUsername = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, authtoken);
+            stmt.setString(1, associatedUsername);
             rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 person = new Person(rs.getString("personID"), rs.getString("associatedUsername"),
                         rs.getString("firstName"), rs.getString("lastName"), rs.getString("gender"),
                         rs.getString("fatherID"), rs.getString("motherID"), rs.getString("spouseID")
                 );
-                person.addX(personArray.length, personArray, person);
-            } else {
-                return null;
+                personArray.add(person);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding a person in the database");
+            throw new DataAccessException("Error: encountered while finding a person in the database");
         }
         return personArray;
     }

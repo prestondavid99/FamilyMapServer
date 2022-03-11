@@ -24,14 +24,9 @@ public class UserDAO {
      * @param user User object to be inserted
      */
     public void insert(User user) throws DataAccessException {
-        //We can structure our string to be similar to a sql command, but if we insert question
-        //marks we can change them later with help from the statement
         String sql = "INSERT INTO User (username, password, email, firstName, lastName, " +
                 "gender, personID) VALUES(?,?,?,?,?,?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            //Using the statements built-in set(type) functions we can pick the question mark we want
-            //to fill in and give it a proper value. The first argument corresponds to the first
-            //question mark found in our sql String
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             stmt.setString(3, user.getEmail());
@@ -43,7 +38,7 @@ public class UserDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while inserting a Person into the database");
+            throw new DataAccessException("Error: encountered while inserting a User into the database");
         }
     }
 
@@ -73,7 +68,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while validating a user in the database");
+            throw new DataAccessException("Error: encountered while validating a user in the database");
         }
     }
 
@@ -86,9 +81,22 @@ public class UserDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while clearing the User table");
+            throw new DataAccessException("Error: encountered while clearing the User table");
         }
     }
+
+    public void clearUser(String username) throws DataAccessException {
+        String sql = "DELETE FROM User WHERE username = ?;";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error: encountered while clearing the User table");
+        }
+    }
+
+
 
     /**
      * Retrieves a User from the database using the User's ID.
@@ -114,7 +122,7 @@ public class UserDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding a user in the database");
+            throw new DataAccessException("Error: encountered while finding a user in the database");
         }
     }
 }

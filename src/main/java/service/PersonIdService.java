@@ -1,6 +1,7 @@
 package service;
 
 import dataaccess.*;
+import model.AuthToken;
 import model.Person;
 import requestresult.ClearResult;
 import requestresult.PersonIdResult;
@@ -14,15 +15,19 @@ public class PersonIdService {
         Person person;
         try {
             db.openConnection();
-
-            if (new AuthTokenDAO(db.getConnection()).find(authtoken) != null) {
-                person = new PersonDAO(db.getConnection()).find(personID);
-
+            AuthToken authTokenObj = new AuthTokenDAO(db.getConnection()).find(authtoken);
+            person = new PersonDAO(db.getConnection()).find(personID);
+            if (authTokenObj != null && person.getAssociatedUsername().equals(authTokenObj.getUsername())) {
                 db.closeConnection(true);
 
                 PersonIdResult result = new PersonIdResult(person.getAssociatedUsername(), person.getPersonID(),
                         person.getFirstName(), person.getLastName(), person.getGender(), person.getFatherID(),
                         person.getMotherID(), person.getSpouseID(), null, true);
+                return result;
+            }
+            else {
+                db.closeConnection(false);
+                PersonIdResult result = new PersonIdResult("Error: Invalid Authtoken", false);
                 return result;
             }
         }
@@ -31,9 +36,8 @@ public class PersonIdService {
 
             db.closeConnection(false);
 
-            PersonIdResult result = new PersonIdResult("Find Person Failed.", false);
+            PersonIdResult result = new PersonIdResult("Error: Find Person Failed.", false);
             return result;
         }
-        return null; // TODO : Do I return null in this case?
     }
 }

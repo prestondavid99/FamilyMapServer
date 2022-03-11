@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import dataaccess.DataAccessException;
 import requestresult.*;
 import requestresult.LoadRequest;
 import service.FillService;
@@ -53,7 +54,7 @@ public class RegisterHandler implements HttpHandler {
                 exchange.getResponseBody().close();
             }
 
-        } catch (IOException e) {
+        } catch (IOException | DataAccessException e) {
             e.printStackTrace();
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
             exchange.getResponseBody().close();

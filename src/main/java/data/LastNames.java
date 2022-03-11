@@ -1,9 +1,9 @@
 package data;
 
 public class LastNames {
-    private String[] lastNames;
+    private String[] data;
 
-    public String[] getLastNames() {
-        return lastNames;
+    public String[] getData() {
+        return data;
     }
 }

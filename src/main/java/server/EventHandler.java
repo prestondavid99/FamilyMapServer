@@ -6,7 +6,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import dataaccess.DataAccessException;
 import requestresult.EventResult;
-import requestresult.PersonResult;
 import service.EventService;
 
 import java.io.IOException;
@@ -17,13 +16,12 @@ import java.net.HttpURLConnection;
 public class EventHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        boolean success = false;
-
         try {
+            boolean success = false;
             if (exchange.getRequestMethod().toLowerCase().equals("get")) {
                 Headers reqHeaders = exchange.getRequestHeaders();
-                if (reqHeaders.containsKey("AuthToken")) {
-                    String authToken = reqHeaders.getFirst("AuthToken");
+                if (reqHeaders.containsKey("Authorization")) {
+                    String authToken = reqHeaders.getFirst("Authorization");
                     Gson gson = new Gson();
 
                     EventService eventService = new EventService();
@@ -42,9 +40,7 @@ public class EventHandler implements HttpHandler {
 
                     exchange.getResponseBody().close();
                     success = true;
-
                 }
-
             }
 
             if (!success) {

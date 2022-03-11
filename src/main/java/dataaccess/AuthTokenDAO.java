@@ -20,13 +20,14 @@ public class AuthTokenDAO {
     /**
      * Creates an AuthToken to insert into the database
      *
-     * @param authToken the AuthToken to be inserted
+     * @param authtoken the AuthToken to be inserted
      */
-    public void insert(AuthToken authToken) throws DataAccessException {
-        String sql = "INSERT INTO AuthToken (authToken, username) VALUES(?,?)";
+    public void insert(AuthToken authtoken) throws DataAccessException {
+        String sql = "INSERT INTO AuthToken (authtoken, username) VALUES(?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, authToken.getAuthtoken());
-            stmt.setString(2, authToken.getUsername());
+            stmt.setString(1, authtoken.getAuthtoken());
+            stmt.setString(2, authtoken.getUsername());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error inserting authToken into the database");

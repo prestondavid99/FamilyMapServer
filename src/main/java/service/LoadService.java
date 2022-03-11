@@ -1,7 +1,9 @@
 package service;
 
 import dataaccess.*;
+import model.Event;
 import model.Person;
+import model.User;
 import requestresult.LoadRequest;
 import requestresult.LoadResult;
 
@@ -13,6 +15,9 @@ import requestresult.LoadResult;
 public class LoadService {
     public LoadResult load(LoadRequest l) throws DataAccessException {
         Database db = new Database();
+        User[] userArray = l.getUsers();
+        Person[] personArray = l.getPersons();
+        Event[] eventArray = l.getEvents();
         try {
             db.openConnection();
 
@@ -20,6 +25,16 @@ public class LoadService {
             new UserDAO(db.getConnection()).clear();
             new PersonDAO(db.getConnection()).clear();
             new AuthTokenDAO(db.getConnection()).clear();
+
+            for (User u : userArray) {
+                new UserDAO(db.getConnection()).insert(u);
+            }
+            for (Person p : personArray) {
+                new PersonDAO(db.getConnection()).insert(p);
+            }
+            for (Event e : eventArray) {
+                new EventDAO(db.getConnection()).insert(e);
+            }
 
             db.closeConnection(true);
 

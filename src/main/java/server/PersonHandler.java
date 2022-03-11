@@ -33,6 +33,7 @@ public class PersonHandler implements HttpHandler {
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     }
 
+
                     OutputStream resBody = exchange.getResponseBody();
                     OutputStreamWriter streamWriter = new OutputStreamWriter(resBody);
                     streamWriter.write(gson.toJson(result));
