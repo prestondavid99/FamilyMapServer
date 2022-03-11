@@ -17,9 +17,9 @@ import java.util.UUID;
 
 public class GenerateFamilyTree {
 
-   private String associatedUsername;
-   private int year;
-   private Connection connection;
+   private final String associatedUsername;
+   private final int year;
+   private final Connection connection;
    private ArrayList<Person> arrayList;
    private ArrayList<Event> eventList;
    private String personID;

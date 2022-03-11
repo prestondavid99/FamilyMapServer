@@ -48,7 +48,7 @@ class ClearHandler implements HttpHandler {
             // Only allow POST requests for this operation.
             // This operation requires a POST request, because the
             // client is "posting" information to the server for processing.
-            if (exchange.getRequestMethod().toLowerCase().equals("post")) {
+            if (exchange.getRequestMethod().equalsIgnoreCase("post")) {
 
                         // Start sending the HTTP response to the client, starting with
                         // the status code and any defined headers.

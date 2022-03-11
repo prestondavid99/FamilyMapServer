@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * Connects AuthToken model class to the database.
  */
 public class AuthTokenDAO {
-    private Connection connection;
+    private final Connection connection;
 
     public AuthTokenDAO(Connection connection) {
         this.connection = connection;

@@ -21,7 +21,7 @@ public class RegisterHandler implements HttpHandler {
         boolean success = false;
 
         try {
-            if (exchange.getRequestMethod().toLowerCase().equals("post")) {
+            if (exchange.getRequestMethod().equalsIgnoreCase("post")) {
                 Gson gson = new Gson();
                 RegisterRequest registerRequest;
 
