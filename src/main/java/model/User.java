@@ -46,6 +46,15 @@ public class User {
         this.personID = personID;
     }
 
+    public User(String username, String password, String email, String firstName, String lastName, String gender) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+    }
+
     public boolean equals(Object o) {
 
         // Checks if o is null OR if it is not equal to the class
@@ -62,7 +71,6 @@ public class User {
                 u.getFirstName().equals(this.getFirstName()) && u.getLastName().equals(this.getLastName()) && u.getGender().equals(this.getGender()) &&
                 u.getPersonID().equals(this.getPersonID())
         );
-
     }
 
     public String getUsername() {

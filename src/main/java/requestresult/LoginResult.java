@@ -3,7 +3,7 @@ package requestresult;
 /**
  * Outcome of the Login Request
  */
-public class LoginResult extends Result {
+public class  LoginResult extends Result {
     private String authtoken;
     private String username;
     private String personID;
@@ -17,5 +17,29 @@ public class LoginResult extends Result {
 
     public LoginResult(String message, boolean success) {
         super(message, success);
+    }
+
+    public String getAuthtoken() {
+        return authtoken;
+    }
+
+    public void setAuthtoken(String authtoken) {
+        this.authtoken = authtoken;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public void setPersonID(String personID) {
+        this.personID = personID;
     }
 }

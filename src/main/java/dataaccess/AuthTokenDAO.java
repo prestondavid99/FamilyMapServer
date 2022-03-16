@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * Connects AuthToken model class to the database.
  */
 public class AuthTokenDAO {
-    private Connection connection;
+    private final Connection connection;
 
     public AuthTokenDAO(Connection connection) {
         this.connection = connection;
@@ -20,13 +20,14 @@ public class AuthTokenDAO {
     /**
      * Creates an AuthToken to insert into the database
      *
-     * @param authToken the AuthToken to be inserted
+     * @param authtoken the AuthToken to be inserted
      */
-    public void insert(AuthToken authToken) throws DataAccessException {
-        String sql = "INSERT INTO AuthToken (authToken, username) VALUES(?,?)";
+    public void insert(AuthToken authtoken) throws DataAccessException {
+        String sql = "INSERT INTO AuthToken (authtoken, username) VALUES(?,?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, authToken.getAuthtoken());
-            stmt.setString(2, authToken.getUsername());
+            stmt.setString(1, authtoken.getAuthtoken());
+            stmt.setString(2, authtoken.getUsername());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("Error inserting authToken into the database");
@@ -39,12 +40,12 @@ public class AuthTokenDAO {
      * @param authToken the AuthToken sought for in the database
      * @return the AuthToken
      */
-    public AuthToken find(AuthToken authToken) throws DataAccessException {
+    public AuthToken find(String authToken) throws DataAccessException {
         AuthToken authTokenObj;
         ResultSet rs;
         String sql = "SELECT * FROM AuthToken WHERE authToken = ?;";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, authToken.getAuthtoken());
+            stmt.setString(1, authToken);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 authTokenObj = new AuthToken(rs.getString("authToken"), rs.getString("username"));
@@ -54,12 +55,20 @@ public class AuthTokenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding an authToken in the database");
+            throw new DataAccessException("Error: finding an authToken in the database failed");
         }
     }
 
     /**
      * Clears the table.
      */
-    public void clear() {}
+    public void clear() throws DataAccessException {
+        String sql = "DELETE FROM AuthToken";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error: clearing the AuthToken table failed");
+        }
+    }
 }

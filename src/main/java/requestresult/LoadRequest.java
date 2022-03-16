@@ -12,6 +12,18 @@ public class LoadRequest extends Request {
     private Person[] persons;
     private Event[] events;
 
+    public void setUsers(User[] users) {
+        this.users = users;
+    }
+
+    public void setPersons(Person[] persons) {
+        this.persons = persons;
+    }
+
+    public void setEvents(Event[] events) {
+        this.events = events;
+    }
+
     public User[] getUsers() {
         return users;
     }

@@ -62,6 +62,15 @@ public class Person {
         this.fatherID = fatherID;
         this.motherID = motherID;
     }
+
+    public Person(String personID, String associatedUsername, String firstName, String lastName, String gender) {
+        this.personID = personID;
+        this.associatedUsername = associatedUsername;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+
+    }
     public boolean equals(Object o) {
 
         // Checks if o is null OR if it is not equal to the class
@@ -80,7 +89,6 @@ public class Person {
         );
 
     }
-
 
     public String getPersonID() {
         return personID;

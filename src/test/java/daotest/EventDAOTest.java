@@ -3,6 +3,7 @@ package daotest;
 import dataaccess.DataAccessException;
 import dataaccess.Database;
 import dataaccess.EventDAO;
+import model.AuthToken;
 import model.Event;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -74,5 +75,27 @@ public class EventDAOTest {
         // the "()->", and the assertThrows assertion expects the code that ran to throw an
         // instance of the class in the first parameter, which in this case is a DataAccessException.
         assertThrows(DataAccessException.class, () -> eDao.insert(bestEvent));
+    }
+
+    @Test
+    public void findPass() throws DataAccessException {
+        eDao.insert(bestEvent);
+        Event compareTest = eDao.find(bestEvent.getEventID());
+        assertNotNull(compareTest);
+        assertEquals(bestEvent, compareTest);
+    }
+
+    @Test
+    public void findFail() throws DataAccessException {
+        Event compareTest = eDao.find(bestEvent.getEventID());
+        assertNull(compareTest);
+    }
+
+    @Test
+    public void clearPass() throws DataAccessException {
+        eDao.insert(bestEvent);
+        eDao.clear();
+        Event compareTest = eDao.find(bestEvent.getEventID());
+        assertNull(compareTest);
     }
 }
