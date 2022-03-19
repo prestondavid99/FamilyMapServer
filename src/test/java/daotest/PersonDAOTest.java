@@ -5,7 +5,6 @@ import dataaccess.DataAccessException;
 import dataaccess.Database;
 import dataaccess.PersonDAO;
 import model.Person;
-import model.Person;
 import model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

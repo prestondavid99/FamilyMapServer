@@ -5,16 +5,13 @@ import model.AuthToken;
 import model.Event;
 import model.Person;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import requestresult.*;
 import service.*;
 
-import javax.xml.crypto.Data;
-import java.sql.Connection;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PersonServiceTest {
     private ClearService clearService;

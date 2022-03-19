@@ -5,7 +5,6 @@ import model.AuthToken;
 import model.Event;
 import model.Person;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import requestresult.*;
@@ -14,9 +13,7 @@ import service.LoginService;
 import service.PersonIdService;
 import service.RegisterService;
 
-import java.sql.Connection;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ClearServiceTest {
     private ClearService clearService;

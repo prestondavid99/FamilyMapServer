@@ -3,7 +3,6 @@ package server;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import data.Location;
 import dataaccess.DataAccessException;
 import requestresult.LoadRequest;
 import requestresult.LoadResult;
