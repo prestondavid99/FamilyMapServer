@@ -1,26 +1,19 @@
 package servicetest;
 
 import com.google.gson.Gson;
-import data.FemaleNames;
 import dataaccess.*;
 import model.AuthToken;
 import model.Event;
 import model.Person;
 import model.User;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import requestresult.*;
 import service.*;
 
-import javax.xml.crypto.Data;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.sql.Connection;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LoadServiceTest {
     private PersonService personService;

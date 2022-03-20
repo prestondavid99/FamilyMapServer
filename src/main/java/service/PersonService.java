@@ -7,7 +7,6 @@ import dataaccess.PersonDAO;
 import model.AuthToken;
 import model.Person;
 import requestresult.PersonResult;
-import requestresult.PersonResult;
 
 /**
  * Returns ALL family members of the current user. The current user is determined by the provided authtoken.

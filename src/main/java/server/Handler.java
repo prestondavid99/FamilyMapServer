@@ -6,7 +6,6 @@ import requestresult.LoadRequest;
 import requestresult.LoadResult;
 import requestresult.Request;
 import requestresult.Result;
-import service.LoadService;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
