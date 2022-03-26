@@ -1,4 +1,10 @@
 package server;
+import com.google.gson.Gson;
+import dataaccess.DataAccessException;
+import requestresult.LoginRequest;
+import requestresult.LoginResult;
+import service.LoginService;
+
 import java.io.*;
 import java.net.*;
 
@@ -20,14 +26,16 @@ public class Client {
 
         String serverHost = args[0];
         String serverPort = args[1];
+        String authToken = args[2];
 
         login(serverHost, serverPort);
-        getPeople(serverHost, serverPort);
+        getPeople(serverHost, serverPort, authToken);
+        getEvents(serverHost, serverPort, authToken);
     }
 
     // The getGameList method calls the server's "/games/list" operation to
     // retrieve a list of games running in the server in JSON format
-    private static void login(String serverHost, String serverPort) {
+    private static LoginResult login(String serverHost, String serverPort) {
 
         // This method shows how to send a GET request to a server
 
@@ -68,6 +76,9 @@ public class Client {
             // request is complete
             reqBody.close();
 
+            Gson gson = new Gson();
+            LoginRequest loginRequest;
+
             // By the time we get here, the HTTP response has been received from the server.
             // Check to make sure that the HTTP response from the server contains a 200
             // status code, which means "success".  Treat anything else as a failure.
@@ -78,9 +89,10 @@ public class Client {
 
                 // Extract JSON data from the HTTP response body
                 String respData = readString(respBody);
-
+                LoginResult result = gson.fromJson(respData, LoginResult.class);
                 // Display the JSON data returned from the server
                 System.out.println(respData);
+                return result;
             }
             else {
                 // The HTTP response status code indicates an error
@@ -92,18 +104,21 @@ public class Client {
 
                 // Extract data from the HTTP response body
                 String respData = readString(respBody);
+                LoginResult result = gson.fromJson(respData, LoginResult.class);
 
                 // Display the data returned from the server
                 System.out.println(respData);
+                return result;
             }
         }
         catch (IOException e) {
             // An exception was thrown, so display the exception's stack trace
             e.printStackTrace();
         }
+    return null;
     }
 
-    private static void getPeople(String serverHost, String serverPort) {
+    private static void getPeople(String serverHost, String serverPort, String authToken) {
 
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + "/person");
@@ -114,7 +129,7 @@ public class Client {
 
             http.setDoOutput(false);
 
-            http.addRequestProperty("Authorization", "afj232hj2332"); // TODO : What do I put instead of this hardcoded authToken?
+            http.addRequestProperty("Authorization", authToken); // TODO : What do I put instead of this hardcoded authToken?
 
             http.addRequestProperty("Accept", "application/json");
 
@@ -145,7 +160,7 @@ public class Client {
         }
     }
 
-    private static void getEvents(String serverHost, String serverPort) {
+    private static void getEvents(String serverHost, String serverPort, String authToken) {
 
         try {
             URL url = new URL("http://" + serverHost + ":" + serverPort + "/event");
@@ -156,7 +171,7 @@ public class Client {
 
             http.setDoOutput(false);
 
-            http.addRequestProperty("Authorization", "afj232hj2332"); // TODO : What do I put instead of this hardcoded authToken?
+            http.addRequestProperty("Authorization", authToken); // TODO : What do I put instead of this hardcoded authToken?
 
             http.addRequestProperty("Accept", "application/json");
 
